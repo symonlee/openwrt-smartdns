@@ -6,7 +6,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=smartdns
-PKG_VERSION:=9.2020.08
+PKG_VERSION:=2020.09.08
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
