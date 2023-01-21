@@ -1,12 +1,12 @@
 #
-# Copyright (c) 2018-2022 Nick Peng (pymumu@gmail.com)
+# Copyright (c) 2018-2023 Nick Peng (pymumu@gmail.com)
 # This is free software, licensed under the GNU General Public License v3.
 #
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=smartdns
-PKG_VERSION:=2023.01.08
+PKG_VERSION:=2023.01.20
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
@@ -14,8 +14,8 @@ PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://www.github.com/pymumu/smartdns.git
-PKG_SOURCE_VERSION:=ee4816da5c66619c4210f7fda6245adf4c1c7ee8
-PKG_MIRROR_HASH:=b15c0aac8bac4f25ac7c2109a80481134019b9298ccd650d2d39ad7a3af2c752
+PKG_SOURCE_VERSION:=13d028df0dfdd422f9306b616fd65b47483ac9a1
+PKG_MIRROR_HASH:=skip
 
 PKG_MAINTAINER:=Nick Peng <pymumu@gmail.com>
 PKG_LICENSE:=GPL-3.0-or-later
