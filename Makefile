@@ -41,9 +41,7 @@ endef
 
 define Package/smartdns/conffiles
 /etc/config/smartdns
-/etc/smartdns/address.conf
-/etc/smartdns/blacklist-ip.conf
-/etc/smartdns/custom.conf
+/etc/smartdns/
 endef
 
 define Package/smartdns/install
@@ -53,8 +51,8 @@ define Package/smartdns/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/package/openwrt/files/etc/init.d/smartdns $(1)/etc/init.d/smartdns
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/address.conf $(1)/etc/smartdns/address.conf
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/blacklist-ip.conf $(1)/etc/smartdns/blacklist-ip.conf
-	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/custom.conf $(1)/etc/smartdns/custom.conf
-	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/files/etc/config/smartdns $(1)/etc/config/smartdns
+	$(INSTALL_CONF) ./conf/custom.conf $(1)/etc/smartdns/custom.conf
+	$(INSTALL_CONF) ./conf/smartdns.conf $(1)/etc/config/smartdns
 endef
 
 $(eval $(call BuildPackage,smartdns))
