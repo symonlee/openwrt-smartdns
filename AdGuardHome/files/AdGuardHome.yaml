@@ -32,11 +32,10 @@ dns:
   refuse_any: true
   upstream_dns:
     - https://cloudflare-dns.com/dns-query
-    - https://dns.google/dns-query
   upstream_dns_file: ""
   bootstrap_dns:
-    - 211.138.180.2
-    - 211.138.180.3
+    - 1.1.1.1
+    - 1.0.0.1
   all_servers: true
   fastest_addr: false
   fastest_timeout: 1s
