@@ -104,7 +104,14 @@ filters:
     id: 2
 whitelist_filters: []
 user_rules:
-  - '||*^$dnstype=HTTPS'
+  - '||nivod.tv^$dnstype=HTTPS'
+  - '||mudvod.tv^$dnstype=HTTPS'
+  - '||newpppp.com^$dnstype=HTTPS'
+  - '||biggggg.com^$dnstype=HTTPS'
+  - '||vod360.net^$dnstype=HTTPS'
+  - '||nbys.tv^$dnstype=HTTPS'
+  - '||nbyy.tv^$dnstype=HTTPS'
+  - '||nbys1.tv^$dnstype=HTTPS'
 dhcp:
   enabled: false
   interface_name: ""
