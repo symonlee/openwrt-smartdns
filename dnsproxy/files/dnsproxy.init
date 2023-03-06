@@ -60,7 +60,7 @@ load_config_list() {
 
 load_config_param() {
 	append_param_arg "global" "listen_addr" "--listen" "127.0.0.1"
-	append_param_arg "global" "listen_port" "--port" "5353"
+	append_param_arg "global" "listen_port" "--port" "5350"
 	append_param_arg "global" "log_file" "--output"
 	append_param_arg "global" "max_go_routines" "--max-go-routines"
 	append_param_arg "global" "rate_limit" "--ratelimit"
