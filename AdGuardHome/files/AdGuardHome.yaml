@@ -42,7 +42,7 @@ dns:
   trusted_proxies:
     - 127.0.0.0/8
     - ::1/128
-  cache_size: 800000
+  cache_size: 900000
   cache_ttl_min: 43200
   cache_ttl_max: 86400
   cache_optimistic: true
