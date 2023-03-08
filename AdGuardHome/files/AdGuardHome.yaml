@@ -89,7 +89,7 @@ tls:
   private_key_path: ""
   strict_sni_check: false
 querylog:
-  enabled: false
+  enabled: true
   file_enabled: true
   interval: 24h
   size_memory: 1000
