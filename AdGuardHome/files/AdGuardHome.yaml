@@ -37,12 +37,12 @@ dns:
   allowed_clients: []
   disallowed_clients: []
   blocked_hosts:
+    - '||*^$dnstype=HTTPS'
+    - '||in-addr.arpa^'
+    - '||ip6.arpa^'
     - version.bind
     - id.server
     - hostname.bind
-    - '||ip6.arpa^'
-    - '||in-addr.arpa^'
-    - '||*^$dnstype=HTTPS'
   trusted_proxies:
     - 127.0.0.0/8
     - ::1/128
