@@ -39,6 +39,7 @@ dns:
   blocked_hosts:
     - '||ip6.arpa^'
     - '||in-addr.arpa^'
+    - '||*^$dnstype=HTTPS'
   trusted_proxies:
     - 127.0.0.0/8
     - ::1/128
@@ -95,7 +96,7 @@ querylog:
   size_memory: 1000
   ignored: []
 statistics:
-  enabled: true
+  enabled: false
   interval: 1
   ignored: []
 filters:
@@ -109,7 +110,7 @@ filters:
     id: 2
 whitelist_filters: []
 user_rules:
-  - '||*^$dnstype=HTTPS'
+  - ""
 dhcp:
   enabled: false
   interface_name: ""
