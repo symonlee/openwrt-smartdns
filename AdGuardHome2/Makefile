@@ -85,10 +85,10 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_CONF) ./files/AdGuardHome.yaml $(1)/etc/AdGuardHome.yaml
 
 	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_BIN) ./files/AdGuardHome.init $(1)/etc/init.d/adguardhome
+	$(INSTALL_BIN) ./files/AdGuardHome.init $(1)/etc/init.d/AdGuardHome
 
 	$(INSTALL_DIR) $(1)/etc/config
-	$(INSTALL_DATA) ./files/AdGuardHome.config $(1)/etc/config/adguardhome
+	$(INSTALL_DATA) ./files/AdGuardHome.config $(1)/etc/config/AdGuardHome
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
