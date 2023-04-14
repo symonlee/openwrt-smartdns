@@ -2,7 +2,7 @@ bind_host: 0.0.0.0
 bind_port: 3000
 users:
   - name: root
-    password: $2a$10$bfP988DPx1UAdQvezUZ.d./twPfBeF2eis9uoXDl04DGcy085vWke
+    password: $2a$10$S2Jq4vXwHd0Y7MxonANHbuRUN/SnPt.Nkgg7TbUyS8hDFsuGxgQYS
 auth_attempts: 5
 block_auth_min: 15
 http_proxy: ""
@@ -20,6 +20,7 @@ dns:
   blocking_ipv4: ""
   blocking_ipv6: ""
   blocked_response_ttl: 10
+  protection_disabled_until: null
   parental_block_host: family-block.dns.adguard.com
   safebrowsing_block_host: standard-block.dns.adguard.com
   ratelimit: 0
@@ -61,15 +62,23 @@ dns:
   handle_ddr: true
   ipset: []
   ipset_file: ""
+  bootstrap_prefer_ipv6: false
   filtering_enabled: true
   filters_update_interval: 24
   parental_enabled: false
-  safesearch_enabled: false
   safebrowsing_enabled: false
   safebrowsing_cache_size: 1048576
   safesearch_cache_size: 1048576
   parental_cache_size: 1048576
   cache_time: 30
+  safe_search:
+    enabled: false
+    bing: false
+    duckduckgo: false
+    google: false
+    pixabay: false
+    yandex: false
+    youtube: false
   rewrites: []
   blocked_services: []
   upstream_timeout: 10s
@@ -96,15 +105,15 @@ tls:
   private_key_path: ""
   strict_sni_check: false
 querylog:
-  enabled: false
-  file_enabled: true
+  ignored: []
   interval: 24h
   size_memory: 1000
-  ignored: []
-statistics:
   enabled: false
-  interval: 1
+  file_enabled: true
+statistics:
   ignored: []
+  interval: 24h
+  enabled: false
 filters:
   - enabled: true
     url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt
@@ -152,4 +161,4 @@ os:
   group: ""
   user: ""
   rlimit_nofile: 0
-schema_version: 17
+schema_version: 20
