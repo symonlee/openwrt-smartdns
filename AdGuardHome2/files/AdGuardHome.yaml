@@ -27,8 +27,7 @@ dns:
   ratelimit_whitelist: []
   refuse_any: true
   upstream_dns:
-    - https://1.1.1.1/dns-query
-    - https://1.0.0.1/dns-query
+    - https://dns.quad9.net/dns-query
   upstream_dns_file: ""
   bootstrap_dns:
     - tcp://1.1.1.1
