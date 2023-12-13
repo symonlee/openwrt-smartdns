@@ -60,12 +60,10 @@ endef
 define Package/qBittorrent-static/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(DL_DIR)/qbittorrent-nox $(1)/usr/bin
-	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_BIN) ./files/qbittorrent.init $(1)/etc/init.d/qbittorrent
-
-	$(INSTALL_DIR) $(1)/etc/config
-	$(INSTALL_DATA) ./files/qbittorrent.config $(1)/etc/config/qbittorrent
-
+	$(INSTALL_DIR) $(1)/etc/config/
+	$(INSTALL_CONF) $(CURDIR)/files/qbittorrent.config $(1)/etc/config/qbittorrent
+	$(INSTALL_DIR) $(1)/etc/init.d/
+	$(INSTALL_BIN) $(CURDIR)/files/qbittorrent.init $(1)/etc/init.d/qbittorrent
 	$(INSTALL_DIR) $(1)/etc/uci-defaults/
 	$(INSTALL_BIN) $(CURDIR)/files/qbittorrent.defaults $(1)/etc/uci-defaults/50_luci-qbittorrent
 endef
