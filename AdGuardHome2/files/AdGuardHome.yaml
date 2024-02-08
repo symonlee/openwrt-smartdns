@@ -29,8 +29,7 @@ dns:
     - tcp://1.1.1.1
     - tcp://1.0.0.1
   fallback_dns: []
-  all_servers: true
-  fastest_addr: false
+  upstream_mode: parallel
   fastest_timeout: 1s
   allowed_clients: []
   disallowed_clients: []
@@ -172,4 +171,4 @@ os:
   group: ""
   user: ""
   rlimit_nofile: 0
-schema_version: 27
+schema_version: 28
