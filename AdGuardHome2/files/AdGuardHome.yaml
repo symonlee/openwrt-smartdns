@@ -35,8 +35,6 @@ dns:
   disallowed_clients: []
   blocked_hosts:
     - '||*^$dnstype=HTTPS'
-    - '||in-addr.arpa^'
-    - '||ip6.arpa^'
     - version.bind
     - id.server
     - hostname.bind
