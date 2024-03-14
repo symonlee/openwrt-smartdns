@@ -6,7 +6,7 @@ http:
   session_ttl: 720h
 users:
   - name: root
-    password: $2a$10$S2Jq4vXwHd0Y7MxonANHbuRUN/SnPt.Nkgg7TbUyS8hDFsuGxgQYS
+    password: $2a$10$rfN.QV9Ilc9HdskbQ1I74ue8etqpW3bM/lBM4k.SmyhV6osyzfEVO
 auth_attempts: 5
 block_auth_min: 15
 http_proxy: ""
@@ -17,13 +17,14 @@ dns:
     - 0.0.0.0
   port: 5335
   anonymize_client_ip: false
-  ratelimit: 0
+  ratelimit: 20
   ratelimit_subnet_len_ipv4: 24
   ratelimit_subnet_len_ipv6: 56
   ratelimit_whitelist: []
   refuse_any: true
   upstream_dns:
-    - https://dns.quad9.net/dns-query
+    - https://1.1.1.1/dns-query
+    - https://1.0.0.1/dns-query
   upstream_dns_file: ""
   bootstrap_dns:
     - tcp://1.1.1.1
@@ -35,8 +36,6 @@ dns:
   disallowed_clients: []
   blocked_hosts:
     - '||*^$dnstype=HTTPS'
-    - '||in-addr.arpa^'
-    - '||ip6.arpa^'
     - version.bind
     - id.server
     - hostname.bind
@@ -87,12 +86,12 @@ querylog:
   ignored: []
   interval: 24h
   size_memory: 1000
-  enabled: false
+  enabled: true
   file_enabled: true
 statistics:
   ignored: []
   interval: 24h
-  enabled: false
+  enabled: true
 filters:
   - enabled: false
     url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt
@@ -131,12 +130,12 @@ filtering:
   protection_disabled_until: null
   safe_search:
     enabled: false
-    bing: false
-    duckduckgo: false
-    google: false
-    pixabay: false
-    yandex: false
-    youtube: false
+    bing: true
+    duckduckgo: true
+    google: true
+    pixabay: true
+    yandex: true
+    youtube: true
   blocking_mode: default
   parental_block_host: family-block.dns.adguard.com
   safebrowsing_block_host: standard-block.dns.adguard.com
