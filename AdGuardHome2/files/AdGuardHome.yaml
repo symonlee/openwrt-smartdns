@@ -88,12 +88,12 @@ querylog:
   ignored: []
   interval: 24h
   size_memory: 1000
-  enabled: true
+  enabled: false
   file_enabled: true
 statistics:
   ignored: []
   interval: 24h
-  enabled: true
+  enabled: false
 filters:
   - enabled: false
     url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt
