@@ -1,40 +1,28 @@
-# SPDX-License-Identifier: GPL-3.0-only
 #
-# Copyright (C) 2021 ImmortalWrt.org
+# Copyright (C) 2019 OpenWrt.org
+#
+# KFERMercer <KFER.Mercer@gmail.com>
+#
+# This is free software, licensed under the GNU General Public License v3.
+#
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dnsproxy
-PKG_VERSION:=0.67.0
-PKG_RELEASE:=$(AUTORELEASE)
-
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/AdguardTeam/dnsproxy/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=885fc754fb3d204b51e1e069dad559ea1f771c855902803175387f2c0d5f0a82
-
-PKG_MAINTAINER:=Tianling Shen <cnsztl@immortalwrt.org>
-PKG_LICENSE:=Apache-2.0
-PKG_LICENSE_FILES:=LICENSE
-
-PKG_BUILD_DEPENDS:=golang/host
-PKG_BUILD_PARALLEL:=1
-PKG_BUILD_FLAGS:=no-mips16
-
-GO_PKG:=github.com/AdguardTeam/dnsproxy
-GO_PKG_LDFLAGS_X:=$(GO_PKG)/internal/version.version=v$(PKG_VERSION)
+PROJECT_NAME:=dnsproxy
+PKG_VERSION:=0.68.0
+PKG_RELEASE:=1
 
 include $(INCLUDE_DIR)/package.mk
-include $(TOPDIR)/feeds/packages/lang/golang/golang-package.mk
 
-define Package/dnsproxy
-  SECTION:=net
-  CATEGORY:=Network
-  SUBMENU:=IP Addresses and Names
-  TITLE:=Simple DNS proxy with DoH, DoT, DoQ and DNSCrypt support
-  URL:=https://github.com/AdguardTeam/dnsproxy
-  DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle
-  USERID:=dnsproxy=411:dnsproxy=411
+define Package/$(PKG_NAME)
+	SECTION:=net
+	CATEGORY:=Network
+	SUBMENU:=IP Addresses and Names
+	TITLE:=Simple DNS proxy with DoH, DoT, DoQ and DNSCrypt support
+	URL:=https://github.com/AdguardTeam/dnsproxy
 endef
+
 
 define Package/dnsproxy/description
   A simple DNS proxy server that supports all existing DNS protocols including
@@ -42,20 +30,66 @@ define Package/dnsproxy/description
   work as a DNS-over-HTTPS, DNS-over-TLS or DNS-over-QUIC server.
 endef
 
-define Package/dnsproxy/install
-	$(call GoPackage/Package/Install/Bin,$(1))
+STRIP:=true
 
-	$(INSTALL_DIR) $(1)/etc/config/
-	$(INSTALL_CONF) $(CURDIR)/files/dnsproxy.config $(1)/etc/config/dnsproxy
-	$(INSTALL_DIR) $(1)/etc/init.d/
-	$(INSTALL_BIN) $(CURDIR)/files/dnsproxy.init $(1)/etc/init.d/dnsproxy
-	$(INSTALL_DIR) $(1)/etc/uci-defaults/
-	$(INSTALL_BIN) $(CURDIR)/files/dnsproxy.defaults $(1)/etc/uci-defaults/80-dnsproxy-migration
+ifeq ($(ARCH),i386)
+	PKG_ARCH_DNSPROXY:=386
+endif
+
+ifeq ($(ARCH),x86_64)
+	PKG_ARCH_DNSPROXY:=amd64
+endif
+
+ifeq ($(ARCH),mipsel)
+	PKG_ARCH_DNSPROXY:=mipsle
+endif
+
+ifeq ($(ARCH),mips)
+	PKG_ARCH_DNSPROXY:=mips
+endif
+
+ifeq ($(ARCH),arm)
+	PKG_ARCH_DNSPROXY:=arm
+endif
+
+ifeq ($(ARCH),arm64)
+	PKG_ARCH_DNSPROXY:=arm64
+endif
+
+ifeq ($(ARCH),aarch64)
+	PKG_ARCH_DNSPROXY:=arm64
+endif
+
+TAR_NAME:=dnsproxy_linux_$(PKG_ARCH_DNSPROXY)
+
+PKG_SOURCE:=$(TAR_NAME).tar.gz
+
+PKG_SOURCE_URL:=https://github.com/AdguardTeam/dnsproxy/releases/download/v$(PKG_VERSION)/
+
+UNTAR_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)/$(PKG_NAME)-extract/$(PKG_ARCH_DNSPROXY)
+
+PKG_HASH:=0d1751d36634dde0196891beb17f79aa6d7ad4f8e4f575f618a2a37082401a64
+
+define Build/Prepare
+	mkdir -vp $(UNTAR_DIR)
+	tar -zxvf $(DL_DIR)/$(PKG_SOURCE) -C $(UNTAR_DIR)
 endef
 
-define Package/dnsproxy/conffiles
-/etc/config/dnsproxy
+define Build/Configure
 endef
 
-$(eval $(call GoBinPackage,dnsproxy))
-$(eval $(call BuildPackage,dnsproxy))
+define Build/Compile
+endef
+
+define Package/$(PKG_NAME)/install
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_BIN) ./files/dnsproxy.init $(1)/etc/init.d/dnsproxy
+
+	$(INSTALL_DIR) $(1)/etc/uci-defaults
+	$(INSTALL_BIN) ./files/dnsproxy.defaults $(1)/etc/uci-defaults/80-dnsproxy-migration
+
+	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_CONF) ./files/dnsproxy.config $(1)/etc/config/dnsproxy
+endef
+
+$(eval $(call BuildPackage,$(PKG_NAME)))
