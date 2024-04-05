@@ -82,6 +82,8 @@ define Build/Compile
 endef
 
 define Package/$(PKG_NAME)/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(UNTAR_DIR)/*/$(PROJECT_NAME) $(1)/usr/bin/$(PKG_NAME)
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/dnsproxy.init $(1)/etc/init.d/dnsproxy
 
