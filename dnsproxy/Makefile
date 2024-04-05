@@ -60,7 +60,7 @@ ifeq ($(ARCH),aarch64)
 	PKG_ARCH_DNSPROXY:=arm64
 endif
 
-TAR_NAME:=dnsproxy-linux-$(PKG_ARCH_DNSPROXY)-$(PKG_VERSION)
+TAR_NAME:=dnsproxy-linux-$(PKG_ARCH_DNSPROXY)-v$(PKG_VERSION)
 
 PKG_SOURCE:=$(TAR_NAME).tar.gz
 
