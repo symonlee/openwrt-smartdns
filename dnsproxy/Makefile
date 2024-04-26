@@ -68,7 +68,7 @@ PKG_SOURCE_URL:=https://github.com/AdguardTeam/dnsproxy/releases/download/v$(PKG
 
 UNTAR_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)/$(PKG_NAME)-extract/$(PKG_ARCH_DNSPROXY)
 
-PKG_HASH:=a3b604974ccd4dd7ae7c22fe53e9b49bae9ca7e2130d9b07446bce1fd1de4519
+PKG_HASH:=3a67979da0a90616c68355ae24aa3d1c23745f9b546bc70af35fc1e768d22e94
 
 define Build/Prepare
 	mkdir -vp $(UNTAR_DIR)
