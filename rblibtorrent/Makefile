@@ -42,7 +42,7 @@ define Download/try_signal
 	SUBDIR:=deps/try_signal
 	FILE:=$(TRY_SIGNAL_FILE)
 	URL:=https://github.com/arvidn/try_signal.git
-	MIRROR_HASH:=skip
+	MIRROR_HASH:=32a432e35e81c79f21c49744f00696c112e0deab45d15d91c61ceb63fe25a5f8
 	PROTO:=git
 endef
 
@@ -71,7 +71,7 @@ define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libtorrent-rasterbar.so* $(1)/usr/lib/
 	$(INSTALL_DIR) $(1)/usr/lib/pkgconfig
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/pkgconfig/libtorrent-rasterbarj.pc $(1)/usr/lib/pkgconfig/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/pkgconfig/libtorrent-rasterbar.pc $(1)/usr/lib/pkgconfig/
 endef
 
 define Package/rblibtorrent/install
