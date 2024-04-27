@@ -42,7 +42,7 @@ define Download/try_signal
 	SUBDIR:=deps/try_signal
 	FILE:=$(TRY_SIGNAL_FILE)
 	URL:=https://github.com/arvidn/try_signal.git
-	MIRROR_HASH:=32a432e35e81c79f21c49744f00696c112e0deab45d15d91c61ceb63fe25a5f8
+	MIRROR_HASH:=skip
 	PROTO:=git
 endef
 
