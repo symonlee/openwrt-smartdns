@@ -31,6 +31,8 @@ return view.extend({
 		s.tab('general',  _('General Settings'));
 		s.tab('template', _('Edit Template'), _('Edit the template that is used for generating the samba configuration.'));
 
+		o = s.taboption('general', form.Flag, 'enabled', _('Enabled'));
+
 		o = s.taboption('general', widgets.NetworkSelect, 'interface', _('Interface'),
 			_('Listen only on the given interface or, if unspecified, on lan'));
 		o.multiple = true;
@@ -59,7 +61,7 @@ return view.extend({
 			Not recommend if multiple clients write to the same files, at the same time!'));
 
 		s.taboption('general', form.Flag, 'disable_async_io', _('Force synchronous  I/O'),
-			_('On lower-end devices may increase speeds, by forcing synchronous I/O instead of the default asynchronous.'));
+			_('On lower-end devices may increase speeds, by forceing synchronous I/O instead of the default asynchronous.'));
 
 		s.taboption('general', form.Flag, 'macos', _('Enable macOS compatible shares'),
 			_('Enables Apple\'s AAPL extension globally and adds macOS compatibility options to all shares.'));
