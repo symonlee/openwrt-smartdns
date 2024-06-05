@@ -90,7 +90,10 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
 	$(INSTALL_BIN) ./files/dnsproxy.defaults $(1)/etc/uci-defaults/80-dnsproxy-migration
 
-	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_DIR) $(1)/etc/capabilities/
+	$(INSTALL_DATA) ./files/dnsproxy.json $(1)/etc/capabilities/dnsproxy.json
+
+	$(INSTALL_DIR) $(1)/etc/config/
 	$(INSTALL_CONF) ./files/dnsproxy.config $(1)/etc/config/dnsproxy
 endef
 
