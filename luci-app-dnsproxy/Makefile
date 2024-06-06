@@ -7,6 +7,6 @@ include $(TOPDIR)/rules.mk
 LUCI_TITLE:=LuCI Support for dnsproxy.
 LUCI_DEPENDS:=+dnsproxy
 
-include ../../luci.mk
+include $(TOPDIR)/feeds/luci/luci.mk
 
 # call BuildPackage - OpenWrt buildroot signature
