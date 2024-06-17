@@ -164,12 +164,12 @@ clients:
     hosts: true
   persistent: []
 log:
-  file: /tmp/aglog.txt
+  file: ""
   max_backups: 0
   max_size: 100
   max_age: 3
   compress: false
-  local_time: true
+  local_time: false
   verbose: false
 os:
   group: ""
