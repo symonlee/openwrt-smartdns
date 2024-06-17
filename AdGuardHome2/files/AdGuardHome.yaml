@@ -130,7 +130,7 @@ filtering:
   blocking_ipv6: ""
   blocked_services:
     schedule:
-      time_zone: Local
+      time_zone: UTC
     ids: []
   protection_disabled_until: null
   safe_search:
