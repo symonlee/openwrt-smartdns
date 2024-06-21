@@ -164,7 +164,7 @@ clients:
     hosts: true
   persistent: []
 log:
-  file: ""
+  file: /var/adg.log
   max_backups: 0
   max_size: 100
   max_age: 3
