@@ -132,7 +132,6 @@ start_service() {
 	procd_set_param stderr 1
 	procd_set_param user dnsproxy
 
-	procd_add_jail dnsproxy ronly log
 	procd_set_param capabilities "/etc/capabilities/dnsproxy.json"
 	procd_add_jail_mount "/etc/ssl/certs/ca-certificates.crt"
 	[ -z "$log_file" ] || procd_add_jail_mount_rw "$log_file"
