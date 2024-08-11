@@ -165,7 +165,7 @@ clients:
   persistent: []
 log:
   enabled: false
-  file: /var/adg.log
+  file: /var/AdGuardHome.log
   max_backups: 0
   max_size: 100
   max_age: 3
