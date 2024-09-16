@@ -10,7 +10,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dnsproxy
 PROJECT_NAME:=dnsproxy
-PKG_VERSION:=0.73.1
+PKG_VERSION:=0.73.2
 PKG_RELEASE:=1
 
 include $(INCLUDE_DIR)/package.mk
@@ -68,7 +68,7 @@ PKG_SOURCE_URL:=https://github.com/AdguardTeam/dnsproxy/releases/download/v$(PKG
 
 UNTAR_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)/$(PKG_NAME)-extract/$(PKG_ARCH_DNSPROXY)
 
-PKG_HASH:=6a8a5c57b734f268cdaac19e9c66d98f888a0e361150d002de7780761c7d676a
+PKG_HASH:=aeb63a61ff323581ad28c804c87f69528a20bdea44c7b36808bde9c216735a80
 
 define Build/Prepare
 	mkdir -vp $(UNTAR_DIR)
