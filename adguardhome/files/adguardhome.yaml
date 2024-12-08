@@ -1,6 +1,6 @@
 http:
   pprof:
-    port: 6060
+    port: 6061
     enabled: false
   address: 0.0.0.0:3001
   session_ttl: 720h
