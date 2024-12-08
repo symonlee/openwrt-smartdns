@@ -146,7 +146,7 @@ filtering:
   safebrowsing_block_host: standard-block.dns.adguard.com
   rewrites: []
   safe_fs_patterns:
-    - /tmp/AdGuardHome/userfilters/*
+    - /tmp/adguardhome/userfilters/*
   safebrowsing_cache_size: 1048576
   safesearch_cache_size: 1048576
   parental_cache_size: 1048576
@@ -167,7 +167,7 @@ clients:
   persistent: []
 log:
   enabled: false
-  file: /var/AdGuardHome.log
+  file: /var/adguardhome.log
   max_backups: 0
   max_size: 100
   max_age: 3
