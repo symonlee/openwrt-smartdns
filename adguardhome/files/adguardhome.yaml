@@ -46,6 +46,7 @@ dns:
   trusted_proxies:
     - 127.0.0.0/8
     - ::1/128
+  cache_enabled: true
   cache_size: 900000
   cache_ttl_min: 43200
   cache_ttl_max: 86400
@@ -183,4 +184,4 @@ os:
   group: ""
   user: ""
   rlimit_nofile: 0
-schema_version: 29
+schema_version: 30
