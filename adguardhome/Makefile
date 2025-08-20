@@ -65,7 +65,7 @@ PKG_SOURCE_URL:=https://github.com/AdguardTeam/AdGuardHome/releases/download/v$(
 
 UNTAR_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)/$(PKG_NAME)-extract/$(PKG_ARCH_ADGUARDHOME)
 
-PKG_HASH:=0861421e48b34c3b3e19a046e993de242a4e1445085a60eceb086bed01fbb28e
+PKG_HASH:=75db417e441fa556a89befd888968d1841727190af624794ce63295c6bfbbb03
 
 define Build/Prepare
 	mkdir -vp $(UNTAR_DIR)
