@@ -160,6 +160,7 @@ filtering:
   filters_update_interval: 24
   blocked_response_ttl: 10
   filtering_enabled: true
+  rewrites_enabled: true
   parental_enabled: false
   safebrowsing_enabled: false
   protection_enabled: true
@@ -184,4 +185,4 @@ os:
   group: ""
   user: ""
   rlimit_nofile: 0
-schema_version: 30
+schema_version: 31
