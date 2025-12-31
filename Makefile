@@ -1,58 +1,63 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 #
-# Copyright (c) 2018-2025 Nick Peng (pymumu@gmail.com)
-# This is free software, licensed under the GNU General Public License v3.
-#
+# Copyright (c) 2018-2023 Nick Peng (pymumu@gmail.com)
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=smartdns
-PKG_VERSION:=1.2025.47
+PKG_VERSION:=2025.12.25
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://www.github.com/pymumu/smartdns.git
-PKG_MIRROR_HASH:=609fec024396a3a26278ef9fe7bd49aeca478e3163fc53c699a5f402fa0320f0
-PKG_SOURCE_VERSION:=e9bdf78b96a33fd4224c5027f3fd61c9528c3904
-
-SMARTDNS_WEBUI_VERSION:=1.0.0
-SMARTDNS_WEBUI_SOURCE_PROTO:=git
-SMARTDNS_WEBUI_SOURCE_URL:=https://github.com/pymumu/smartdns-webui.git
-SMARTDNS_WEBUI_SOURCE_VERSION:=3261c18b1b93d841e86d9e727557109ae71d71cd
-SMARTDNS_WEBUI_FILE:=smartdns-webui-$(SMARTDNS_WEBUI_VERSION).tar.gz
+PKG_SOURCE_URL:=https://github.com/pymumu/smartdns.git
+PKG_SOURCE_VERSION:=20aa651a13cd7c9422169bb29bb21f34d2256aaa
+PKG_MIRROR_HASH:=b5d5180476f2f72ee9463481bdd299d0dce7ed1e917ce547aff809b680140ec0
 
 PKG_MAINTAINER:=Nick Peng <pymumu@gmail.com>
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE
 
+PKG_CONFIG_DEPENDS:=CONFIG_PACKAGE_smartdns-ui
+PKG_BUILD_DEPENDS:=PACKAGE_smartdns-ui:node/host PACKAGE_smartdns-ui:rust-bindgen/host
 PKG_BUILD_PARALLEL:=1
 
-# node compile is slow, so do not use it, download node manually.
-# PACKAGE_smartdns-ui:node/host
-PKG_BUILD_DEPENDS:=PACKAGE_smartdns-ui:rust/host 
+RUST_PKG_FEATURES:=build-release
+RUST_PKG_LOCKED:=0
 
-include $(TOPDIR)/feeds/packages/lang/rust/rust-package.mk
 include $(INCLUDE_DIR)/package.mk
+include $(TOPDIR)/feeds/packages/lang/rust/rust-package.mk
 
-MAKE_VARS += VER=$(PKG_VERSION) 
 MAKE_PATH:=src
+MAKE_VARS+= VER=$(PKG_VERSION)
 
-define Package/smartdns/default
+define Package/smartdns/Default
   SECTION:=net
   CATEGORY:=Network
   SUBMENU:=IP Addresses and Names
+  TITLE:=smartdns
   URL:=https://www.github.com/pymumu/smartdns/
 endef
 
 define Package/smartdns
-  $(Package/smartdns/default)
-  TITLE:=smartdns server
-  DEPENDS:=+libpthread +libopenssl +libatomic
+  $(call Package/smartdns/Default)
+  TITLE+= server
+  DEPENDS:=+i386:libatomic +libopenssl
 endef
 
 define Package/smartdns/description
 SmartDNS is a local DNS server which accepts DNS query requests from local network clients,
 gets DNS query results from multiple upstream DNS servers concurrently, and returns the fastest IP to clients.
-Unlike dnsmasq's all-servers, smartdns returns the fastest IP, and encrypt DNS queries with DoT or DoH. 
+Unlike dnsmasq's all-servers, smartdns returns the fastest IP, and encrypt DNS queries with DoT or DoH.
+endef
+
+define Package/smartdns-ui
+  $(call Package/smartdns/Default)
+  TITLE+= dashboard
+  DEPENDS:=+smartdns $(RUST_ARCH_DEPENDS) @!(TARGET_x86_geode||TARGET_x86_legacy)
+endef
+
+define Package/smartdns-ui/description
+A dashboard ui for smartdns server.
 endef
 
 define Package/smartdns/conffiles
@@ -64,80 +69,73 @@ define Package/smartdns/conffiles
 /etc/smartdns/domain-forwarding.list
 endef
 
+define Download/smartdns-webui
+  PROTO:=git
+  URL:=https://github.com/pymumu/smartdns-webui.git
+  SOURCE_DATE:=2025-12-24
+  SOURCE_VERSION:=3261c18b1b93d841e86d9e727557109ae71d71cd
+  MIRROR_HASH:=84fb0061ee4f701a51806e0b4d74dc19a6a2e6116a2a9862ae78e7a5d1a6b465
+  SUBDIR:=smartdns-webui-$$$$(subst -,.,$$$$(SOURCE_DATE))~$$$$(call version_abbrev,$$$$(SOURCE_VERSION))
+  FILE:=$$(SUBDIR).tar.zst
+endef
+
+define Build/Prepare
+	$(call Build/Prepare/Default)
+
+ifneq ($(CONFIG_PACKAGE_smartdns-ui),)
+	$(eval $(call Download,smartdns-webui))
+	$(eval $(Download/smartdns-webui))
+	mkdir -p $(PKG_BUILD_DIR)/smartdns-webui
+	zstdcat $(DL_DIR)/$(FILE) | tar -C $(PKG_BUILD_DIR)/smartdns-webui $(TAR_OPTIONS) --strip-components=1
+endif
+endef
+
+define Build/Compile
+	$(call Build/Compile/Default)
+
+ifneq ($(CONFIG_PACKAGE_smartdns-ui),)
+	( \
+		pushd $(PKG_BUILD_DIR) ; \
+		pushd smartdns-webui ; \
+		$(SED) 's/"\^/"/g' package.json ; \
+		npm install ; \
+		npm run build ; \
+		popd ; \
+		pushd plugin/smartdns-ui ; \
+		$(CARGO_PKG_CONFIG_VARS) \
+		MAKEFLAGS="$(PKG_JOBS)" \
+		TARGET_CFLAGS="$(filter-out -O%,$(TARGET_CFLAGS)) $(RUSTC_CFLAGS)" \
+		BINDGEN_EXTRA_CLANG_ARGS="--sysroot=$(TOOLCHAIN_ROOT_DIR)" \
+		cargo build -v --profile $(CARGO_PKG_PROFILE) \
+		$(if $(strip $(RUST_PKG_FEATURES)),--features "$(strip $(RUST_PKG_FEATURES))") \
+		$(if $(filter --jobserver%,$(PKG_JOBS)),,-j1) \
+		$(CARGO_PKG_ARGS) ; \
+		popd ; \
+		popd ; \
+	)
+endif
+endef
+
 define Package/smartdns/install
-	$(INSTALL_DIR) $(1)/usr/sbin $(1)/etc/config $(1)/etc/init.d 
+	$(INSTALL_DIR) $(1)/usr/sbin $(1)/etc/config $(1)/etc/init.d
 	$(INSTALL_DIR) $(1)/etc/smartdns $(1)/etc/smartdns/domain-set $(1)/etc/smartdns/conf.d/
+	$(INSTALL_DIR) $(1)/etc/smartdns/ip-set $(1)/etc/smartdns/download
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/smartdns $(1)/usr/sbin/smartdns
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/package/openwrt/files/etc/init.d/smartdns $(1)/etc/init.d/smartdns
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/address.conf $(1)/etc/smartdns/address.conf
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/blacklist-ip.conf $(1)/etc/smartdns/blacklist-ip.conf
-	$(INSTALL_CONF) ./conf/custom.conf $(1)/etc/smartdns/custom.conf
-	$(INSTALL_CONF) ./conf/smartdns.conf $(1)/etc/config/smartdns
-endef
-
-define Package/smartdns-ui
-  $(Package/smartdns/default)
-  TITLE:=smartdns dashboard
-  DEPENDS:=+smartdns $(RUST_ARCH_DEPENDS)
-endef
-
-define Package/smartdns-ui/description
-A dashboard ui for smartdns server.
-endef
-
-define Package/smartdns-ui/conffiles
-/etc/config/smartdns
+	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/custom.conf $(1)/etc/smartdns/custom.conf
+	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/domain-block.list $(1)/etc/smartdns/domain-block.list
+	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/domain-forwarding.list $(1)/etc/smartdns/domain-forwarding.list
+	$(INSTALL_CONF) ./files/smartdns.conf $(1)/etc/config/smartdns
 endef
 
 define Package/smartdns-ui/install
 	$(INSTALL_DIR) $(1)/usr/lib
-	$(INSTALL_DIR) $(1)/etc/smartdns/conf.d/
-	$(INSTALL_DIR) $(1)/usr/share/smartdns/wwwroot
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/plugin/smartdns-ui/target/smartdns_ui.so $(1)/usr/lib/smartdns_ui.so
-	$(CP) $(PKG_BUILD_DIR)/smartdns-webui/out/* $(1)/usr/share/smartdns/wwwroot
-endef
-
-define Build/Compile/smartdns-webui
-	which npm || (echo "npm not found, please install npm first" && exit 1)
-	npm install --prefix $(PKG_BUILD_DIR)/smartdns-webui/
-	npm run build --prefix $(PKG_BUILD_DIR)/smartdns-webui/
-endef
-
-define Build/Compile/smartdns-ui
-	cargo install --force --locked bindgen-cli
-	CARGO_BUILD_ARGS="$(if $(strip $(RUST_PKG_FEATURES)),--features "$(strip $(RUST_PKG_FEATURES))") --profile $(CARGO_PKG_PROFILE)"
-	+$(CARGO_PKG_VARS) CARGO_BUILD_ARGS="$(CARGO_BUILD_ARGS)" CC=$(TARGET_CC) \
-	PATH="$$(PATH):$(CARGO_HOME)/bin" \
-	AWS_LC_SYS_CFLAGS="-O0" \
-	make -C $(PKG_BUILD_DIR)/plugin/smartdns-ui
-endef
-
-define Download/smartdns-webui
-	FILE:=$(SMARTDNS_WEBUI_FILE)
-	PROTO:=$(SMARTDNS_WEBUI_SOURCE_PROTO)
-	URL:=$(SMARTDNS_WEBUI_SOURCE_URL)
-	MIRROR_HASH:=227eef2dfffb56445145e7b8a76f6d6fa678ce3e99aceec58f7d35564f4cfafd
-	VERSION:=$(SMARTDNS_WEBUI_SOURCE_VERSION)
-	HASH:=$(SMARTDNS_WEBUI_HASH)
-	SUBDIR:=smartdns-webui
-endef
-$(eval $(call Download,smartdns-webui))
-
-ifdef CONFIG_PACKAGE_smartdns-ui
-define Build/Prepare
-	$(call Build/Prepare/Default)
-	$(TAR) -C $(PKG_BUILD_DIR)/ -xf $(DL_DIR)/$(SMARTDNS_WEBUI_FILE)
-endef
-endif
-
-define Build/Compile
-	$(call Build/Compile/Default,smartdns)
-ifdef CONFIG_PACKAGE_smartdns-ui
-	$(call Build/Compile/smartdns-ui)
-	$(call Build/Compile/smartdns-webui)
-endif
+	$(INSTALL_DIR) $(1)/usr/share/smartdns
+	$(CP) $(PKG_BUILD_DIR)/plugin/smartdns-ui/target/$(RUSTC_TARGET_ARCH)/$(CARGO_PKG_PROFILE)/libsmartdns_ui.so $(1)/usr/lib/smartdns_ui.so
+	$(CP) $(PKG_BUILD_DIR)/smartdns-webui/out $(1)/usr/share/smartdns/wwwroot
 endef
 
 $(eval $(call BuildPackage,smartdns))
-$(eval $(call RustBinPackage,smartdns-ui))
 $(eval $(call BuildPackage,smartdns-ui))
