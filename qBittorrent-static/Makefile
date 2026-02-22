@@ -57,6 +57,11 @@ endef
 define Package/qBittorrent-static/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(DL_DIR)/$(PKG_ARCH)-qbittorrent-nox-$(DL_VERSION) $(1)/usr/bin/qbittorrent-nox
+
+	$(INSTALL_DIR) $(1)/etc/config $(1)/etc/init.d $(1)/usr/share/qbittorrent
+	$(INSTALL_BIN) ./files/qbittorrent.init $(1)/etc/init.d/qbittorrent
+	$(INSTALL_CONF) ./files/qbittorrent.config $(1)/etc/config/qbittorrent
+	$(INSTALL_CONF) ./files/qBittorrent.conf.example $(1)/usr/share/qbittorrent/qBittorrent.conf.example
 endef
 
 $(eval $(call Download,qbittorrent))
