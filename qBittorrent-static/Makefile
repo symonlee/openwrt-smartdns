@@ -48,7 +48,7 @@ define Download/qbittorrent
   URL:=https://github.com/userdocs/qbittorrent-nox-static/releases/download/release-$(DL_VERSION)
   URL_FILE:=$(PKG_ARCH)-qbittorrent-nox
   FILE:=$(PKG_ARCH)-qbittorrent-nox-$(DL_VERSION)
-  HASH:=5a83e8047e2b6b3fcbe9cd7fde4b5a48352033e469d167fae907166273f87915
+  HASH:=dfd3c0d832cef62e76923d9fd65d004431851ec1278e8dd36a0ae578897cdf77
 endef
 
 define Build/Compile
