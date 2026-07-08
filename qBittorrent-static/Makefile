@@ -7,8 +7,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=qBittorrent-static
-PKG_VERSION:=5.2.2
-DL_VERSION:=5.2.2_v1.2.20
+PKG_VERSION:=5.2.3
+DL_VERSION:=5.2.3_v1.2.20
 PKG_RELEASE=1
 
 STRIP:=true
@@ -48,7 +48,7 @@ define Download/qbittorrent
   URL:=https://github.com/userdocs/qbittorrent-nox-static/releases/download/release-$(DL_VERSION)
   URL_FILE:=$(PKG_ARCH)-qbittorrent-nox
   FILE:=$(PKG_ARCH)-qbittorrent-nox-$(DL_VERSION)
-  HASH:=e6a88c9ed811bdf3e75e571d755e2f2257175caff8e5732cfbfc8e7052467e57
+  HASH:=78b9a79e186e3e4ea70d7c4639201e13cd6982376e869f155b6620b895a7ef71
 endef
 
 define Build/Compile
