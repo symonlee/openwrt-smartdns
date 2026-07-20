@@ -97,18 +97,26 @@ tls:
   strict_sni_check: false
 querylog:
   dir_path: ""
-  ignored: []
+  ignored:
+    - ntp.tencent.com
+    - ntp1.aliyun.com
+    - ntp.ntsc.ac.cn
+    - cn.ntp.org.cn
   interval: 7d
   size_memory: 1000
   enabled: true
-  ignored_enabled: false
+  ignored_enabled: true
   file_enabled: true
 statistics:
   dir_path: ""
-  ignored: []
+  ignored:
+    - ntp.tencent.com
+    - ntp1.aliyun.com
+    - ntp.ntsc.ac.cn
+    - cn.ntp.org.cn
   interval: 7d
   enabled: true
-  ignored_enabled: false
+  ignored_enabled: true
 filters:
   - enabled: false
     url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt
