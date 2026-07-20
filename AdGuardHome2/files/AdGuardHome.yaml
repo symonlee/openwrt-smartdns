@@ -31,11 +31,9 @@ dns:
   refuse_any: true
   upstream_dns:
     - https://1.1.1.1/dns-query
-    - https://1.0.0.1/dns-query
   upstream_dns_file: ""
   bootstrap_dns:
     - tcp://1.1.1.1
-    - tcp://1.0.0.1
   fallback_dns: []
   upstream_mode: parallel
   fastest_timeout: 1s
