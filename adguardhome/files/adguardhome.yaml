@@ -52,7 +52,7 @@ dns:
   cache_enabled: true
   cache_size: 900000
   cache_ttl_min: 600
-  cache_ttl_max: 0
+  cache_ttl_max: 86400
   cache_optimistic: true
   cache_optimistic_answer_ttl: 30s
   cache_optimistic_max_age: 12h
