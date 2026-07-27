@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=smartdns
-PKG_VERSION:=2026.07.20
+PKG_VERSION:=2026.07.25
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/pymumu/smartdns.git
-PKG_SOURCE_VERSION:=53d7471e693992762d8fd105647a2c5e47a9c1e9
+PKG_SOURCE_VERSION:=b7aa763bbd67fc4ec475435f193af31b35f7dd30
 PKG_MIRROR_HASH:=skip
 
 PKG_MAINTAINER:=Nick Peng <pymumu@gmail.com>
