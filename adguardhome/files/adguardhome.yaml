@@ -34,7 +34,8 @@ dns:
   upstream_dns_file: ""
   bootstrap_dns:
     - 223.5.5.5
-  fallback_dns: []
+  fallback_dns:
+    - https://223.6.6.6/dns-query
   upstream_mode: parallel
   fastest_timeout: 1s
   allowed_clients: []
