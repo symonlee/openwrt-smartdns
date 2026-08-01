@@ -69,7 +69,7 @@ dns:
   ipset: []
   ipset_file: ""
   bootstrap_prefer_ipv6: false
-  upstream_timeout: 3s
+  upstream_timeout: 1s
   private_networks: []
   use_private_ptr_resolvers: false
   local_ptr_upstreams: []
