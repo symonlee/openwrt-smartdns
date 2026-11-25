@@ -7,8 +7,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=qBittorrent-static
-PKG_VERSION:=5.3.0
-DL_VERSION:=5.3.0_v2.1.3
+PKG_VERSION:=5.3.1
+DL_VERSION:=5.3.1_v2.1.3
 PKG_RELEASE=1
 
 STRIP:=true
