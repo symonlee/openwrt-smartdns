@@ -30,7 +30,7 @@ dns:
   upstream_dns_file: ""
   upstream_mode: parallel
   bind_hosts:
-    - 192.168.1.1
+    - 0.0.0.0
   ratelimit_whitelist: []
   dns64_prefixes: []
   private_networks: []
