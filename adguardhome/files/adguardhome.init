@@ -24,7 +24,7 @@ start_service() {
   config_get_bool enabled config enabled
   config_get CONFIG_FILE config config "/etc/adguardhome.yaml"
   config_get PID_FILE config pidfile "/run/adguardhome.pid"
-  config_get WORK_DIR config workdir "/var/lib/adguardhome"
+  config_get WORK_DIR config workdir "/var/adguardhome"
 
   [ "$enabled" -eq "1" ] || return 1
   [ -d "$WORK_DIR" ] || mkdir -m 0755 -p "$WORK_DIR"
