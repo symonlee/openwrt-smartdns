@@ -1,7 +1,4 @@
 http:
-  pprof:
-    port: 6039
-    enabled: false
   doh:
     routes:
       - GET /dns-query
@@ -9,37 +6,38 @@ http:
       - GET /dns-query/{ClientID}
       - POST /dns-query/{ClientID}
     insecure_enabled: false
-  address: 0.0.0.0:3039
+  pprof:
+    port: 6039
+    enabled: false
+  address: 192.168.1.1:3039
   session_ttl: 30d
 users:
   - name: root
-    password: $2a$10$RV2o0nq7upLrZ2zn37eYR.hNuBBcklMRRDWYQg3578476kX0wSUqi
+    password: $2a$10$OlcYr7gA61XUg7n0IVuj6.4bwts/Lxmi4Fq9KZ8cfQvJPA8VI1hlm
 auth_attempts: 5
 block_auth_min: 15
 http_proxy: ""
-language: ""
+language: zh-cn
 theme: auto
 dns:
-  bind_hosts:
-    - 0.0.0.0
-  port: 5339
-  anonymize_client_ip: false
-  ratelimit: 0
-  ratelimit_subnet_len_ipv4: 24
-  ratelimit_subnet_len_ipv6: 56
-  ratelimit_whitelist: []
-  refuse_any: true
-  upstream_dns:
-    - https://1.1.1.1/dns-query
+  edns_client_subnet:
+    custom_ip: ""
+    enabled: false
+    use_custom: false
+  pending_requests:
+    enabled: true
+  ipset_file: ""
   upstream_dns_file: ""
-  bootstrap_dns:
-    - tcp://1.1.1.1
-  fallback_dns:
-    - https://1.0.0.1/dns-query
   upstream_mode: parallel
-  fastest_timeout: 1s
+  bind_hosts:
+    - 192.168.1.1
+  ratelimit_whitelist: []
+  dns64_prefixes: []
+  private_networks: []
+  trusted_proxies:
+    - 127.0.0.0/8
+    - ::1/128
   allowed_clients: []
-  disallowed_clients: []
   blocked_hosts:
     - '||*^$dnstype=HTTPS'
     - '||in-addr.arpa^'
@@ -47,40 +45,42 @@ dns:
     - version.bind
     - id.server
     - hostname.bind
-  trusted_proxies:
-    - 127.0.0.0/8
-    - ::1/128
-  cache_enabled: false
-  cache_size: 0
-  cache_ttl_min: 0
-  cache_ttl_max: 0
-  cache_optimistic: false
+  bogus_nxdomain: []
+  bootstrap_dns:
+    - tcp://1.1.1.1
+  disallowed_clients: []
+  fallback_dns:
+    - https://1.0.0.1/dns-query
+  ipset: []
+  local_ptr_upstreams: []
+  upstream_dns:
+    - https://1.1.1.1/dns-query
   cache_optimistic_answer_ttl: 3s
   cache_optimistic_max_age: 12h
-  bogus_nxdomain: []
-  aaaa_disabled: true
-  enable_dnssec: false
-  edns_client_subnet:
-    custom_ip: ""
-    enabled: false
-    use_custom: false
-  max_goroutines: 300
-  handle_ddr: false
-  ipset: []
-  ipset_file: ""
-  bootstrap_prefer_ipv6: false
+  fastest_timeout: 1s
   upstream_timeout: 1s
-  private_networks: []
-  use_private_ptr_resolvers: false
-  local_ptr_upstreams: []
-  use_dns64: false
-  dns64_prefixes: []
-  serve_http3: false
-  use_http3_upstreams: false
-  serve_plain_dns: true
+  max_goroutines: 300
+  ratelimit_subnet_len_ipv4: 24
+  ratelimit_subnet_len_ipv6: 56
+  cache_ttl_max: 0
+  cache_ttl_min: 0
+  cache_size: 0
+  ratelimit: 0
+  port: 5339
+  aaaa_disabled: true
+  anonymize_client_ip: false
+  bootstrap_prefer_ipv6: false
+  cache_enabled: false
+  cache_optimistic: false
+  enable_dnssec: false
+  handle_ddr: false
   hostsfile_enabled: false
-  pending_requests:
-    enabled: true
+  refuse_any: true
+  serve_http3: false
+  serve_plain_dns: true
+  use_dns64: false
+  use_http3_upstreams: false
+  use_private_ptr_resolvers: false
 tls:
   enabled: false
   server_name: ""
@@ -97,18 +97,26 @@ tls:
   strict_sni_check: false
 querylog:
   dir_path: ""
-  ignored: []
+  ignored:
+    - ntp.tencent.com
+    - ntp1.aliyun.com
+    - ntp.ntsc.ac.cn
+    - cn.ntp.org.cn
   interval: 7d
   size_memory: 1000
   enabled: true
-  ignored_enabled: false
   file_enabled: true
+  ignored_enabled: true
 statistics:
   dir_path: ""
-  ignored: []
+  ignored:
+    - ntp.tencent.com
+    - ntp1.aliyun.com
+    - ntp.ntsc.ac.cn
+    - cn.ntp.org.cn
   interval: 7d
   enabled: true
-  ignored_enabled: false
+  ignored_enabled: true
 filters:
   - enabled: false
     url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt
@@ -121,22 +129,22 @@ filters:
 whitelist_filters: []
 user_rules: []
 dhcp:
-  enabled: false
-  interface_name: ""
-  local_domain_name: lan
   dhcpv4:
     gateway_ip: ""
-    subnet_mask: ""
     range_start: ""
     range_end: ""
-    lease_duration: 86400
-    icmp_timeout_msec: 1000
+    subnet_mask: ""
     options: []
+    icmp_timeout_msec: 1000
+    lease_duration: 86400
   dhcpv6:
     range_start: ""
     lease_duration: 86400
     ra_slaac_only: false
     ra_allow_slaac: false
+  interface_name: ""
+  local_domain_name: lan
+  enabled: false
 filtering:
   blocking_ipv4: ""
   blocking_ipv6: ""
@@ -181,16 +189,16 @@ clients:
     hosts: true
   persistent: []
 log:
-  enabled: false
   file: /var/AdGuardHome.log
+  max_age: 3
   max_backups: 0
   max_size: 100
-  max_age: 3
   compress: false
+  enabled: false
   local_time: false
   verbose: false
 os:
   group: ""
   user: ""
   rlimit_nofile: 0
-schema_version: 34
+schema_version: 35
