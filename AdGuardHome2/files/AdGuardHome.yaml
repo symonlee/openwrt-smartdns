@@ -159,7 +159,7 @@ filtering:
   safebrowsing_block_host: standard-block.dns.adguard.com
   rewrites: []
   safe_fs_patterns:
-    - /tmp/adguardhome/userfilters/*
+    - /tmp/AdGuardHome/userfilters/*
   max_http_size: 256MB
   safebrowsing_cache_size: 1048576
   safesearch_cache_size: 1048576
