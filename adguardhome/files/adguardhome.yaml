@@ -74,7 +74,7 @@ dns:
   cache_optimistic: true
   enable_dnssec: false
   handle_ddr: false
-  hostsfile_enabled: true
+  hostsfile_enabled: false
   refuse_any: true
   serve_http3: false
   serve_plain_dns: true
@@ -182,9 +182,9 @@ filtering:
   protection_enabled: true
 clients:
   runtime_sources:
-    arp: true
+    arp: false
     dhcp: true
-    hosts: true
+    hosts: false
     rdns: false
     whois: true
   persistent: []
