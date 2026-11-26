@@ -1,7 +1,4 @@
 http:
-  pprof:
-    port: 6036
-    enabled: false
   doh:
     routes:
       - GET /dns-query
@@ -9,37 +6,38 @@ http:
       - GET /dns-query/{ClientID}
       - POST /dns-query/{ClientID}
     insecure_enabled: false
-  address: 0.0.0.0:3036
+  pprof:
+    port: 6036
+    enabled: false
+  address: 192.168.1.1:3036
   session_ttl: 30d
 users:
   - name: root
-    password: $2a$10$RV2o0nq7upLrZ2zn37eYR.hNuBBcklMRRDWYQg3578476kX0wSUqi
+    password: $2a$10$OlcYr7gA61XUg7n0IVuj6.4bwts/Lxmi4Fq9KZ8cfQvJPA8VI1hlm
 auth_attempts: 5
 block_auth_min: 15
 http_proxy: ""
-language: ""
+language: zh-cn
 theme: auto
 dns:
-  bind_hosts:
-    - 0.0.0.0
-  port: 5336
-  anonymize_client_ip: false
-  ratelimit: 0
-  ratelimit_subnet_len_ipv4: 24
-  ratelimit_subnet_len_ipv6: 56
-  ratelimit_whitelist: []
-  refuse_any: true
-  upstream_dns:
-    - https://dns.alidns.com/dns-query
+  edns_client_subnet:
+    custom_ip: ""
+    enabled: false
+    use_custom: false
+  pending_requests:
+    enabled: true
+  ipset_file: ""
   upstream_dns_file: ""
-  bootstrap_dns:
-    - 223.5.5.5
-  fallback_dns:
-    - https://223.6.6.6/dns-query
   upstream_mode: parallel
-  fastest_timeout: 1s
+  bind_hosts:
+    - 192.168.1.1
+  ratelimit_whitelist: []
+  dns64_prefixes: []
+  private_networks: []
+  trusted_proxies:
+    - 127.0.0.0/8
+    - ::1/128
   allowed_clients: []
-  disallowed_clients: []
   blocked_hosts:
     - '||*^$dnstype=HTTPS'
     - '||in-addr.arpa^'
@@ -47,40 +45,42 @@ dns:
     - version.bind
     - id.server
     - hostname.bind
-  trusted_proxies:
-    - 127.0.0.0/8
-    - ::1/128
-  cache_enabled: true
-  cache_size: 10485760
-  cache_ttl_min: 600
-  cache_ttl_max: 0
-  cache_optimistic: true
+  bogus_nxdomain: []
+  bootstrap_dns:
+    - 223.5.5.5
+  disallowed_clients: []
+  fallback_dns:
+    - https://223.6.6.6/dns-query
+  ipset: []
+  local_ptr_upstreams: []
+  upstream_dns:
+    - https://dns.alidns.com/dns-query
   cache_optimistic_answer_ttl: 3s
   cache_optimistic_max_age: 12h
-  bogus_nxdomain: []
-  aaaa_disabled: false
-  enable_dnssec: false
-  edns_client_subnet:
-    custom_ip: ""
-    enabled: false
-    use_custom: false
-  max_goroutines: 300
-  handle_ddr: false
-  ipset: []
-  ipset_file: ""
-  bootstrap_prefer_ipv6: false
+  fastest_timeout: 1s
   upstream_timeout: 1s
-  private_networks: []
-  use_private_ptr_resolvers: false
-  local_ptr_upstreams: []
-  use_dns64: false
-  dns64_prefixes: []
-  serve_http3: false
-  use_http3_upstreams: false
-  serve_plain_dns: true
+  max_goroutines: 300
+  ratelimit_subnet_len_ipv4: 24
+  ratelimit_subnet_len_ipv6: 56
+  cache_ttl_max: 0
+  cache_ttl_min: 600
+  cache_size: 10485760
+  ratelimit: 0
+  port: 5336
+  aaaa_disabled: false
+  anonymize_client_ip: false
+  bootstrap_prefer_ipv6: false
+  cache_enabled: true
+  cache_optimistic: true
+  enable_dnssec: false
+  handle_ddr: false
   hostsfile_enabled: true
-  pending_requests:
-    enabled: true
+  refuse_any: true
+  serve_http3: false
+  serve_plain_dns: true
+  use_dns64: false
+  use_http3_upstreams: false
+  use_private_ptr_resolvers: false
 tls:
   enabled: false
   server_name: ""
@@ -105,8 +105,8 @@ querylog:
   interval: 7d
   size_memory: 1000
   enabled: true
-  ignored_enabled: true
   file_enabled: true
+  ignored_enabled: true
 statistics:
   dir_path: ""
   ignored:
@@ -129,22 +129,22 @@ filters:
 whitelist_filters: []
 user_rules: []
 dhcp:
-  enabled: false
-  interface_name: ""
-  local_domain_name: lan
   dhcpv4:
     gateway_ip: ""
-    subnet_mask: ""
     range_start: ""
     range_end: ""
-    lease_duration: 86400
-    icmp_timeout_msec: 1000
+    subnet_mask: ""
     options: []
+    icmp_timeout_msec: 1000
+    lease_duration: 86400
   dhcpv6:
     range_start: ""
     lease_duration: 86400
     ra_slaac_only: false
     ra_allow_slaac: false
+  interface_name: ""
+  local_domain_name: lan
+  enabled: false
 filtering:
   blocking_ipv4: ""
   blocking_ipv6: ""
@@ -189,16 +189,16 @@ clients:
     hosts: true
   persistent: []
 log:
-  enabled: false
   file: /var/adguardhome.log
+  max_age: 3
   max_backups: 0
   max_size: 100
-  max_age: 3
   compress: false
+  enabled: false
   local_time: false
   verbose: false
 os:
   group: ""
   user: ""
   rlimit_nofile: 0
-schema_version: 34
+schema_version: 35
