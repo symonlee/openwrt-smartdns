@@ -74,7 +74,7 @@ dns:
   cache_optimistic: false
   enable_dnssec: false
   handle_ddr: false
-  hostsfile_enabled: false
+  hostsfile_enabled: true
   refuse_any: true
   serve_http3: false
   serve_plain_dns: true
