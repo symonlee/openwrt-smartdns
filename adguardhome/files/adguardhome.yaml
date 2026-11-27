@@ -106,7 +106,7 @@ querylog:
   size_memory: 1000
   enabled: true
   file_enabled: true
-  ignored_enabled: false
+  ignored_enabled: true
 statistics:
   dir_path: ""
   ignored:
@@ -116,7 +116,7 @@ statistics:
     - cn.ntp.org.cn
   interval: 7d
   enabled: true
-  ignored_enabled: false
+  ignored_enabled: true
 filters:
   - enabled: false
     url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt
